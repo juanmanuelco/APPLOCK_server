@@ -213,7 +213,9 @@ router.get('/unde', (req,res)=>{
 router.post('/apps_usuario', (req,res)=>{
     console.log('datos usuario: '+ req.body.usuario)
     Apps.find().where({usuario: req.body.usuario}).exec((error, resp)=>{
-        res.send(resp)
+        if(resp==null){
+            res.send('E1')
+        }else res.send(resp)
     })
 })
 
@@ -234,7 +236,9 @@ router.post('/todas_bloqueadas', (req,res)=>{
 
 router.post('/eiminar_usuario', (req,res)=>{
     Hijos.findOneAndRemove({codigo: req.body.hijo},(e, resp)=>{
-        res.send('OK')
+        Apps.remove({usuario: req.body.hijo}).exec((e, rep)=>{
+            res.send('OK')
+        })
     })
 })
 
